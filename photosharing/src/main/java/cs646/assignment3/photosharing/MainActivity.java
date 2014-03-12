@@ -1,49 +1,43 @@
 package cs646.assignment3.photosharing;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 
 public class MainActivity extends Activity {
+    private String userListUrl = "http://bismarck.sdsu.edu/photoserver/userlist";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        AsyncTask<String, Integer, Message> courseTask =
-//                new UserListTask().execute("");
+        setContentView(R.layout.activity_main);
 
-        // create list of users
-        // pass list to list activity
+        // TODO: Create user objects from reading in json and pass them to user list activity
 
-        // Pass the login a connection.
-        Intent login = new Intent(getApplicationContext(), UserListActivity.class);
-        Bundle bundle = new Bundle();
-//        bundle.putSerializable("connection",connection);
-//        login.putExtra("connection", connection);
-        RequestQueue rq = Volley.newRequestQueue(this);
-        startActivity(login);
+//        Intent userListActivity = new Intent(getApplicationContext(), UserListActivity.class);
+//        Bundle bundle = new Bundle();
 
+        RequestQueue queue = Volley.newRequestQueue(this);
+        Response.Listener<JSONArray> success = new Response.Listener<JSONArray>() {
+            public void onResponse(JSONArray response) {
+                Log.d("MainActivity.onResponse", response.toString());
+            }
+        };
+        Response.ErrorListener failure = new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+                Log.d("MainActivity.onErrorResponse", error.toString());
+            }
+        };
+        JsonArrayRequest getRequest = new JsonArrayRequest(userListUrl, success, failure);
+        queue.add(getRequest);
+//        startActivity(userListActivity);
     }
-
-    /**
-     *
-     */
-    private class UserListTask extends AsyncTask<String, Integer, String>
-    {
-        @Override
-        protected String doInBackground(String... params)
-        {
-            // request course list
-//            String message = new CourseListMessage();
-//            manager.sendMessage(message);
-//            Message reply = manager.getMessage();
-//
-//            return reply;
-            return null;
-        }
-
-    }
-
 }
