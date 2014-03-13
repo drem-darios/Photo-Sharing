@@ -1,6 +1,7 @@
 package cs646.assignment3.photosharing;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,6 +12,13 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import cs646.assignment3.photosharing.api.JsonParser;
+import cs646.assignment3.photosharing.api.User;
 
 public class MainActivity extends Activity {
     private String userListUrl = "http://bismarck.sdsu.edu/photoserver/userlist";
@@ -20,15 +28,23 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: Create user objects from reading in json and pass them to user list activity
-
-//        Intent userListActivity = new Intent(getApplicationContext(), UserListActivity.class);
-//        Bundle bundle = new Bundle();
-
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue userListRequestQueue = Volley.newRequestQueue(this);
         Response.Listener<JSONArray> success = new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
                 Log.d("MainActivity.onResponse", response.toString());
+                try {
+                    JSONArray userListArray = new JSONArray(response.toString());
+                    ArrayList<User> usersList = (ArrayList<User>)JsonParser.parse(userListArray, User.class);
+                    Intent userListActivity = new Intent(getApplicationContext(), UserListActivity.class);
+                    Bundle bundle = new Bundle();
+
+//                    User[] users = usersList.toArray(new User[usersList.size()]);
+                    bundle.putSerializable("users", usersList);
+                    userListActivity.putExtras(bundle);
+                    startActivity(userListActivity);
+                } catch (JSONException e) {
+                    Log.e("MainActivity.onResponse", "Could not parse json from response.", e);
+                }
             }
         };
         Response.ErrorListener failure = new Response.ErrorListener() {
@@ -37,7 +53,6 @@ public class MainActivity extends Activity {
             }
         };
         JsonArrayRequest getRequest = new JsonArrayRequest(userListUrl, success, failure);
-        queue.add(getRequest);
-//        startActivity(userListActivity);
+        userListRequestQueue.add(getRequest);
     }
 }
