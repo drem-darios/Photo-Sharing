@@ -15,9 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
-import cs646.assignment3.photosharing.api.JsonParser;
+import cs646.assignment3.photosharing.util.JsonParser;
 import cs646.assignment3.photosharing.api.User;
 
 public class MainActivity extends Activity {
