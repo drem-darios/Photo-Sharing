@@ -4,6 +4,7 @@
     <string name="app_name">Photo Sharing</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_user_list">UserListActivity</string>
+    <string name="title_activity_photo_list">Photo List</string>
+    <string name="title_activity_photo_display">Photo Display</string>
 
 </resources>

@@ -3,17 +3,16 @@ package cs646.assignment3.photosharing.api;
 import java.io.Serializable;
 
 /**
- * Created by Drem on 3/12/14.
+ * Created by Drem on 3/13/14.
  */
-public class User implements Serializable {
-
+public class Photo implements Serializable {
     private String id, name;
 
-    public User() {
+    public Photo() {
 
     }
 
-    public User(String id, String name) {
+    public Photo(String id, String name) {
         this.id = id;
         this.name = name;
     }
