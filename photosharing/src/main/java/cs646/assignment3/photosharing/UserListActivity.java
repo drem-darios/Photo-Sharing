@@ -57,7 +57,7 @@ public class UserListActivity extends ListActivity {
 
     private void setUsers(List<User> userList) {
         this.users = userList;
-        ArrayAdapter adapter = new ArrayAdapter<User>(this,
+        ArrayAdapter<User> adapter = new ArrayAdapter<User>(this,
                 android.R.layout.simple_list_item_1, users);
         setListAdapter(adapter);
         adapter.notifyDataSetChanged();

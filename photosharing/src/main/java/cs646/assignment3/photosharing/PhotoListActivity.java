@@ -65,7 +65,7 @@ public class PhotoListActivity extends ListActivity {
 
     private void setPhotos(List<Photo> photoList) {
         this.photos = photoList;
-        ArrayAdapter adapter = new ArrayAdapter<Photo>(this,
+        ArrayAdapter<Photo> adapter = new ArrayAdapter<Photo>(this,
                 android.R.layout.simple_list_item_1, photos);
         setListAdapter(adapter);
         adapter.notifyDataSetChanged();
